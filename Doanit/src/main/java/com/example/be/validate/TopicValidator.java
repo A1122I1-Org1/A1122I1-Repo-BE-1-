@@ -45,7 +45,7 @@ public class TopicValidator {
         if (infoTopicRegisterDTO.getTopic().getContent() != null && !infoTopicRegisterDTO.getTopic().getContent().isEmpty()) {
             String[] allowedExtensions = {"docx"};
             String extension = infoTopicRegisterDTO.getTopic().getContent().substring(infoTopicRegisterDTO.getTopic().getContent().lastIndexOf(".") + 1);
-            if (!Arrays.asList(allowedExtensions).contains(extension)) {
+            if (!Arrays.asList(allowedExtensions).contains(extension.toLowerCase())) {
                 errors.put("errorFileFormat", "File mô tả không đúng định dạng");
             }
 
