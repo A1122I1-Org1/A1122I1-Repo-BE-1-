@@ -9,5 +9,5 @@ public interface ITeacherUpdateDTO {
     String getPhone();
     Integer getDegreeId();
     Integer getFacultyId();
-    Integer getGender();
+    Boolean getGender();
 }
