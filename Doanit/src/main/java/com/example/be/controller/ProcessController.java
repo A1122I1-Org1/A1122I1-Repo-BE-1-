@@ -1,5 +1,6 @@
 package com.example.be.controller;
 
+import com.example.be.dto.IInfoTopicDTO;
 import com.example.be.dto.InfoTopicRegisterDTO;
 import com.example.be.entity.Account;
 import com.example.be.entity.InfoTopicRegister;
@@ -56,5 +57,15 @@ public class ProcessController {
 //        iInfoTopicRegisterService.sendStudentApproval(infoTopicRegisterDTO);
 //        iInfoTopicRegisterService.setStatusApproval(infoTopicRegisterDTO.getInfoTopicRegisterId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')" )
+    @GetMapping("/findByIdInfoTopic/{id}")
+    public ResponseEntity<?> getByIdTopic(@PathVariable Integer id) {
+        IInfoTopicDTO item = iInfoTopicRegisterService.getInfoTopicById(id);
+        if (item == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 }
