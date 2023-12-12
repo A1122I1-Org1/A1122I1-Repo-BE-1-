@@ -1,5 +1,6 @@
 package com.example.be.repository;
 
+import com.example.be.dto.IInfoTopicDTO;
 import com.example.be.entity.InfoTopicRegister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +34,13 @@ public interface IInfoTopicRegisterRepository extends JpaRepository<InfoTopicReg
     @Modifying
     @Query(value = "UPDATE `info_topic_register` SET `status` = ?1 WHERE (`info_topic_register_id` = ?2) ", nativeQuery = true)
     void approval(Boolean status, Integer id);
+
+    @Query(value = "SELECT itr.info_topic_register_id as infoTopicRegisterId, t.`name` as topicName, t.content as topicContent, t.image as topicImage, g.`name`  as groupName, GROUP_CONCAT(s.name) as studentNames " +
+            "FROM info_topic_register itr  " +
+            "JOIN topic t ON t.topic_id = itr.topic_id " +
+            "JOIN group_account g ON itr.group_account_id = g.group_account_id " +
+            "JOIN student s ON s.group_account_id = g.group_account_id  " +
+            "WHERE itr.info_topic_register_id = :infoTopicId"
+            , nativeQuery = true)
+    IInfoTopicDTO getInfoTopicById(@Param("infoTopicId") Integer infoTopicId);
 }
