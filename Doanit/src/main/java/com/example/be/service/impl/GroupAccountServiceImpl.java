@@ -32,7 +32,7 @@ public class GroupAccountServiceImpl implements IGroupAccountService {
     @Override
     public void saveGroup(String name, Integer studentId, Integer accountId, ArrayList<Student> students) {
         groupAccountRepository.setGroupLeader(accountId);
-        GroupAccount grObj = new GroupAccount(name, false);
+        GroupAccount grObj = new GroupAccount(name, true);
        GroupAccount groupAccount = groupAccountRepository.save(grObj);
       Boolean b=  clientService.create(groupAccount.getGroupAccountId(),students);
         System.out.println(b);
