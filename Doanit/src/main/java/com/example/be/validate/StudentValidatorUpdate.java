@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class StudentValidatorUpdate {
     @Autowired
     StudentRepository studentRepository;
-    private final Pattern pattern_name=Pattern.compile("^[a-zA-Z\\s]+$");
+    private final Pattern pattern_name=Pattern.compile("^[\\p{L}\\s]+$");
     private final Pattern pattern_email=Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     private final Pattern pattern_phone=Pattern.compile("^[0-9]+$");
     public Map<String,String> validate(CreateUpdateStudentDTO createUpdateStudentDTO) {
