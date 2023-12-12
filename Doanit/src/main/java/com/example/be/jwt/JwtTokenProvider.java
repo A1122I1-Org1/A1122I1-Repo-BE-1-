@@ -14,7 +14,7 @@ import java.util.Date;
 public class JwtTokenProvider {
     private String JWT_SECRET="LoiTH";
 //    private int JWT_EXPIRATION=3600*1000;
-    private int JWT_EXPIRATION=30*60*1000;
+    private int JWT_EXPIRATION=1*60*1000;
 
     public String genarateToken(UserPrinciple userPrinciple){
         Date now= new Date();

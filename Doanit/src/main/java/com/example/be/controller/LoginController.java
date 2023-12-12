@@ -41,11 +41,19 @@ public class LoginController {
                     new UsernamePasswordAuthenticationToken(signInDTO.getUserName(), signInDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-
             String token = jwtTokenProvider.genarateToken(userPrinciple);
-            System.out.println(userPrinciple.getAuthorities());
+            Account account=iAccountService.findByUsername(userPrinciple.getUsername());
+
+            if (account.getTeacher()!=null){
+                return new ResponseEntity<>
+                        (new JwtDTO(token,account.getTeacher().getName(),account.getTeacher().getAvatar(), userPrinciple.getAuthorities()), HttpStatus.OK);
+            }
+            if (account.getStudent()!=null){
+                return new ResponseEntity<>
+                        (new JwtDTO(token,account.getStudent().getName(),account.getStudent().getAvatar(), userPrinciple.getAuthorities()), HttpStatus.OK);
+            }
             return new ResponseEntity<>
-                    (new JwtDTO(token, userPrinciple.getUsername(), userPrinciple.getAuthorities()), HttpStatus.OK);
+                    (new JwtDTO(token,"Admin",null, userPrinciple.getAuthorities()), HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Sai tên người dùng hoặc mật khẩu", HttpStatus.UNAUTHORIZED);
         }
