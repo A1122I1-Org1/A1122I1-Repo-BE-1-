@@ -49,7 +49,7 @@ public class TopicController {
             infoTopicRegister.setGroupAccount(iGroupAccountService.findById(groupAccountId));
             if (infoTopicRegister.getTopic().getTopicId() == null) {
                 Topic topic = infoTopicRegister.getTopic();
-                topic.setDeleteFlag(false);
+                topic.setDeleteFlag(0);
                 infoTopicRegister.setTopic(iTopicService.saveTopic(topic));
             }
             infoTopicRegister.setStatus(false);
