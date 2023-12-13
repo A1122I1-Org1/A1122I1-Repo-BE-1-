@@ -1,7 +1,6 @@
 package com.example.be.dto;
 
 public interface IGetTeacherByIdDTO {
-
     Integer getTeacherId();
     String getAddress();
     String getAvatar();
@@ -11,5 +10,5 @@ public interface IGetTeacherByIdDTO {
     String getPhone();
     String getDegreeName();
     String getFacultyName();
-    Integer getGender();
+    Boolean getGender();
 }
