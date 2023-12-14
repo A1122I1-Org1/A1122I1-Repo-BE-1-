@@ -73,7 +73,8 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "student.grade_id as grade, student.address as address, student.email as email, student.avatar as avatar, student.gender as gender from student where student.student_id = ?1 and student.delete_flag = 1", nativeQuery = true)
     IStudentEditDTO findStudentByStudentId(Integer studentId);
 
-
+@Query(value = "select * from student where student_id=?1",nativeQuery = true)
+Student getStudentsById(Integer integer);
     /**
      * KhoaHND
      * find By phone
@@ -81,7 +82,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Query(value = "select student.student_id as studentId, student.name as name, student.date_of_birth as dateOfBirth, student.phone as phone," +
             "student.grade_id as grade, student.address as address, student.email as email, student.avatar as avatar, student.gender as gender from student where student.phone = ?1 and student.delete_flag = 1", nativeQuery = true)
     List<IStudentEditDTO> findStudentByPhone(String phone);
-
 
     /**
      * KhoaHND

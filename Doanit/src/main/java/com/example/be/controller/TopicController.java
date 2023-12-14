@@ -63,7 +63,7 @@ public class TopicController {
 
             return new ResponseEntity<>(infoTopicRegisterDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Map<String,String>>(errors, HttpStatus.BAD_REQUEST);
         }
 
     }

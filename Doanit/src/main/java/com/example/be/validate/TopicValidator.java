@@ -1,10 +1,12 @@
 package com.example.be.validate;
 
 import com.example.be.dto.InfoTopicRegisterDTO;
+import com.example.be.entity.Topic;
 import com.example.be.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +17,16 @@ public class TopicValidator {
     private TopicRepository topicRepository;
 
     public Map<String, String> validate(InfoTopicRegisterDTO infoTopicRegisterDTO) {
+        ArrayList<Topic> topics= topicRepository.findTopicByName(infoTopicRegisterDTO.getTopic().getName());
         Map<String, String> errors = new HashMap<>();
         if (infoTopicRegisterDTO.getTopic().getName() == null) {
-            errors.put("errorName", "Tên không được để trống");
+            errors.put("errorNameNull", "Tên không được để trống");
             return errors;
         }
-
+        if (!topics.isEmpty()) {
+            errors.put("errorNameDuplicate", "Tên đề tài không được Trùng");
+            return errors;
+        }
         if (infoTopicRegisterDTO.getTopic().getName().length() > 225) {
             errors.put("errorNameLength", "Tên không vượt quá 225 ký tự ");
         }
@@ -28,7 +34,7 @@ public class TopicValidator {
             errors.put("errorNameLength", "Tên không vượt quá 225 ký tự ");
         }
         if (infoTopicRegisterDTO.getTopic().getIntroduce() == null) {
-            errors.put("errorContent ", "Nội dung không được để trống ");
+            errors.put("errorContentNull ", "Nội dung không được để trống ");
         }
         if (infoTopicRegisterDTO.getTopic().getImage() != null && !infoTopicRegisterDTO.getTopic().getImage().isEmpty()) {
             String[] allowedExtensions = {"jpg", "png", "jpeg"};
