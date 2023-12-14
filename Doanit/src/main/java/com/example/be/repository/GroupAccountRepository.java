@@ -40,11 +40,11 @@ public interface GroupAccountRepository extends JpaRepository<GroupAccount, Inte
             nativeQuery = true
     )
 void setGroupLeader(Integer studentId);
-    @Query(value = " SELECT group_account_id,date,delete_flag,status,name FROM doanit.group_account where delete_flag=0 AND name LIKE CONCAT('%', ?1, '%')" , nativeQuery = true)
+    @Query(value = " SELECT group_account_id,date,delete_flag,status,name FROM doanit.group_account where delete_flag=1 AND name LIKE CONCAT('%', ?1, '%')" , nativeQuery = true)
     Page<GroupAccount> findAllGroup(String find, Pageable pageable);
     @Modifying
     @Query(
-            value = "UPDATE `doanit`.`group_account` SET `delete_flag` = 1 WHERE (`group_account_id` = ?1);",nativeQuery = true
+            value = "UPDATE `doanit`.`group_account` SET `delete_flag` = 0 WHERE (`group_account_id` = ?1);",nativeQuery = true
     ) void deleteGroup(Integer groupId);
     @Modifying
     @Query(
