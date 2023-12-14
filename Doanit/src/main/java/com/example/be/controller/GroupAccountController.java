@@ -6,6 +6,7 @@ import com.example.be.entity.GroupAccount;
 import com.example.be.security.UserPrinciple;
 import com.example.be.service.IAccountService;
 import com.example.be.service.IGroupAccountService;
+import com.example.be.validate.GroupAccountDeadlineValidator;
 import com.example.be.validate.GroupAccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +35,8 @@ public class GroupAccountController {
     GroupAccountValidator groupAccountValidator;
     @Autowired
     IAccountService iAccountService;
+    @Autowired
+    GroupAccountDeadlineValidator groupAccountDeadlineValidator;
 
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping("/createGroup")
@@ -93,7 +97,11 @@ public class GroupAccountController {
     @PreAuthorize("hasRole('TEACHER')" )
     @RequestMapping(value = "create-deadline/{groupId}/{date}", method = RequestMethod.PATCH)
     public ResponseEntity<?> createDeadline(@PathVariable("date") String date,@PathVariable("groupId")Integer groupId){
-        this.IGroupAccountService.updateDeadLine(date,groupId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Map<String,String> errors=groupAccountDeadlineValidator.dateValidate(LocalDateTime.parse(date));
+        if(errors.isEmpty()) {
+            this.IGroupAccountService.updateDeadLine(date, groupId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
     }
 }
