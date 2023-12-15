@@ -39,6 +39,7 @@ public class GroupAccountController {
     IAccountService iAccountService;
     @Autowired
     GroupAccountDeadlineValidator groupAccountDeadlineValidator;
+    @Autowired
     IStudentService iStudentService;
 
     @PreAuthorize("hasRole('STUDENT')")

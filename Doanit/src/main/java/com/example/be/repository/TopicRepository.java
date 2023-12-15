@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 
 @Transactional
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
@@ -25,4 +26,5 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
     @Query(value = "SELECT * FROM topic where delete_flag = ?1 and topic.name like %?2%",
             nativeQuery = true)
     Page<Topic> findAllByTopicFind(Boolean delete, String name, Pageable pageable);
+    ArrayList<Topic> findTopicByName(String name);
 }

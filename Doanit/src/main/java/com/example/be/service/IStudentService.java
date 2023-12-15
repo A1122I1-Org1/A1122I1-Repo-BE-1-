@@ -27,4 +27,5 @@ public interface IStudentService {
      * Find By Id
      */
     IStudentEditDTO findStudentByStudentId(Integer studentId);
+    Student getStudentByID(Integer id);
 }
