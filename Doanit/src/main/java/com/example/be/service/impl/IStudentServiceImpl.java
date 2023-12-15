@@ -49,4 +49,7 @@ public class IStudentServiceImpl implements IStudentService {
     public IStudentEditDTO findStudentByStudentId(Integer studentId) {
         return studentRepository.findStudentByStudentId(studentId);
     }
+    public Student getStudentByID(Integer id) {
+        return studentRepository.getStudentsById(id);
+    }
 }
