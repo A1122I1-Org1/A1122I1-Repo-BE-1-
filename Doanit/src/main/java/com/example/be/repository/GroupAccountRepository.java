@@ -35,7 +35,7 @@ public interface GroupAccountRepository extends JpaRepository<GroupAccount, Inte
     @Modifying
     @Query(
             value = "update account_role \n" +
-                    "set account_role.role_id = 4\n" +
+                    "set account_role.role_id = 3\n" +
                     "where account_role.account_id = ?1",
             nativeQuery = true
     )

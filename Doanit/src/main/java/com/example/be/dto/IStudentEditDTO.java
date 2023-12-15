@@ -11,6 +11,6 @@ public interface IStudentEditDTO {
     String getEmail();
     String getAvatar();
     Integer getGrade();
-    Integer getGender();
+    Boolean getGender();
 }
 

@@ -1,5 +1,6 @@
 package com.example.be.service.impl;
 
+import com.example.be.dto.IInfoTopicDTO;
 import com.example.be.entity.InfoTopicRegister;
 import com.example.be.repository.IInfoTopicRegisterRepository;
 import com.example.be.repository.InfoTopicRegisterRepository;
@@ -32,5 +33,10 @@ public class InfoTopicRegisterServiceImpl implements IInfoTopicRegisterService {
     @Override
     public void setStatusApproval(Integer id) {
         iInfoTopicRegisterRepository.approval(true, id);
+    }
+
+    @Override
+    public IInfoTopicDTO getInfoTopicById(Integer infoTopicId) {
+        return iInfoTopicRegisterRepository.getInfoTopicById(infoTopicId);
     }
 }

@@ -50,7 +50,7 @@ public class RegisterTeacherController {
     public ResponseEntity<?> getRegisterService(@RequestParam(value = "page", defaultValue = "0") Integer page){
         Page<IRegisterTeacherDTO> teacher = iRegisterTeacherService.getListTeacherRegistered(PageRequest.of(page, 3));
         if (teacher.isEmpty()){
-            return new ResponseEntity<>("Không tìm thấy giáo viên muốn đăng ký", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Hiện tại không có giáo viên!", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(teacher, HttpStatus.OK);
     }

@@ -49,7 +49,7 @@ public class TopicController {
             infoTopicRegister.setGroupAccount(iGroupAccountService.findById(groupAccountId));
             if (infoTopicRegister.getTopic().getTopicId() == null) {
                 Topic topic = infoTopicRegister.getTopic();
-                topic.setDeleteFlag(false);
+                topic.setDeleteFlag(0);
                 infoTopicRegister.setTopic(iTopicService.saveTopic(topic));
             }
             infoTopicRegister.setStatus(false);
@@ -63,7 +63,7 @@ public class TopicController {
 
             return new ResponseEntity<>(infoTopicRegisterDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Map<String,String>>(errors, HttpStatus.BAD_REQUEST);
         }
 
     }
