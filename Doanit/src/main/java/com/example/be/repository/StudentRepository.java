@@ -27,20 +27,39 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "ORDER BY student.student_id",
             nativeQuery = true)
     Page<Student> getAllStudent(String find,  Pageable pageable);
+//    /**
+//     * Get All Student For Teacher
+//     */
+//    @Query(value = "SELECT *  FROM student " +
+//            "JOIN grade ON student.grade_id = grade.grade_id " +
+//            "JOIN faculty ON grade.faculty_id = faculty.faculty_id " +
+//            "WHERE CONCAT('MSV" +
+//            "', student.student_id, IFNULL(student.name, '')) " +
+//            "LIKE CONCAT('%', ?1, '%') AND student.delete_flag = 1 " +
+//            "AND student.student_id IN (SELECT student.student_id FROM student " +
+//            "JOIN group_account ON student.group_account_id = group_account.group_account_id " +
+//            "JOIN info_topic_register ON group_account.group_account_id = info_topic_register.group_account_id " +
+//            "JOIN teacher ON teacher.teacher_id= info_topic_register.teacher_id " +
+//            "WHERE teacher.teacher_id = ?2) " +
+//            "ORDER BY student.student_id"
+//            , nativeQuery = true)
+//    Page<Student> getAllStudent(String find, Integer teacherId ,Pageable pageable);
     /**
      * Get All Student For Teacher
      */
-    @Query(value = "SELECT *  FROM student " +
+    @Query(value = "SELECT * FROM student " +
             "JOIN grade ON student.grade_id = grade.grade_id " +
-            "JOIN faculty ON grade.faculty_id = faculty.faculty_id " +
-            "WHERE CONCAT('MSV" +
-            "', student.student_id, IFNULL(student.name, '')) " +
-            "LIKE CONCAT('%', ?1, '%') AND student.delete_flag = 1 " +
-            "AND student.student_id IN (SELECT student.student_id FROM student " +
             "JOIN group_account ON student.group_account_id = group_account.group_account_id " +
-            "JOIN info_topic_register ON group_account.group_account_id = info_topic_register.group_account_id " +
-            "JOIN teacher ON teacher.teacher_id= info_topic_register.teacher_id " +
-            "WHERE teacher.teacher_id = ?2) " +
+            "JOIN faculty ON grade.faculty_id = faculty.faculty_id " +
+            "WHERE CONCAT('MSV', student.student_id, IFNULL(group_account.name, ''), IFNULL(student.name, '')) LIKE CONCAT('%', ?1, '%') " +
+            "AND student.delete_flag = 1 " +
+            "AND student.student_id IN (" +
+            "    SELECT student.student_id FROM student " +
+            "    JOIN group_account ON student.group_account_id = group_account.group_account_id " +
+            "     JOIN info_topic_register ON group_account.group_account_id = info_topic_register.group_account_id " +
+            "    JOIN teacher ON teacher.teacher_id= info_topic_register.teacher_id " +
+            "    WHERE teacher.teacher_id = ?2" +
+            ") " +
             "ORDER BY student.student_id"
             , nativeQuery = true)
     Page<Student> getAllStudent(String find, Integer teacherId ,Pageable pageable);
