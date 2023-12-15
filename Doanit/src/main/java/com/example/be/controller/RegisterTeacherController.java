@@ -1,5 +1,6 @@
 package com.example.be.controller;
 
+import com.example.be.dto.GetTeacherByIdDTO;
 import com.example.be.dto.IGetTeacherByIdDTO;
 import com.example.be.dto.IRegisterTeacherDTO;
 import com.example.be.entity.Account;
@@ -32,7 +33,7 @@ public class RegisterTeacherController {
     @PreAuthorize("hasRole('GROUP_LEADER')")
     @PostMapping("/register/{teacherId}")
     public ResponseEntity<?> registerTeacher(@PathVariable Integer teacherId) {
-        if (iRegisterTeacherService.getTeacherById(teacherId) == null) {
+        if (iRegisterTeacherService.getTeacherById(teacherId).getDeleteFlag() == false) {
             return new ResponseEntity<>("Không tìm thấy giáo viên!!", HttpStatus.BAD_REQUEST);
         }
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -41,6 +42,9 @@ public class RegisterTeacherController {
         InfoTopicRegister infoTopicRegister= iInfoTopicRegister.findByGroupAccountId(groupId);
         if (infoTopicRegister.getTeacher()!=null){
             return new ResponseEntity<>("Bạn đã đăng ký giáo viên rồi!!", HttpStatus.BAD_REQUEST);
+        }
+        if (infoTopicRegister.getTopic() == null){
+            return new ResponseEntity<>("Bạn chưa đăng kí đề tài!!", HttpStatus.BAD_REQUEST);
         }
         iRegisterTeacherService.registerTeacher(teacherId,groupId);
         return new ResponseEntity<>("Đăng kí thành công",HttpStatus.OK);
@@ -58,9 +62,28 @@ public class RegisterTeacherController {
     @GetMapping("/findByIdTeacher/{id}")
     public ResponseEntity<?> getByIdTeacher(@PathVariable Integer id) {
         IGetTeacherByIdDTO item = iRegisterTeacherService.getTeacherById(id);
+        GetTeacherByIdDTO data = new GetTeacherByIdDTO();
+        data.setTeacherId(item.getTeacherId());
+        data.setAddress(item.getAddress());
+        data.setAvatar(item.getAvatar());
+        data.setDateOfBirth(item.getDateOfBirth());
+        data.setEmail(item.getEmail());
+        data.setPhone(item.getPhone());
+        data.setName(item.getName());
+        data.setDegreeName(item.getDegreeName());
+        data.setFacultyName(item.getFacultyName());
+        data.setGender(item.getGender());
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = iAccountService.findByUsername(userPrinciple.getUsername());
+        int groupId=account.getStudent().getGroupAccount().getGroupAccountId();
+        InfoTopicRegister infoTopicRegister= iInfoTopicRegister.findByGroupAccountId(groupId);
+        if (infoTopicRegister.getTeacher()!=null){
+            data.setTopicRegisterFlag(true);
+        }
+
         if (item==null){
             return new ResponseEntity<>("Không tìm thấy giáo viên", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(item, HttpStatus.OK);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }

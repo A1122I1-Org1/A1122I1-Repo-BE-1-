@@ -11,4 +11,5 @@ public interface IGetTeacherByIdDTO {
     String getDegreeName();
     String getFacultyName();
     Boolean getGender();
+    Boolean getDeleteFlag();
 }
